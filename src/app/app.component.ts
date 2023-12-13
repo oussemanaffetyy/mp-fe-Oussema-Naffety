@@ -10,9 +10,9 @@ import { Component } from '@angular/core';
 export class AppComponent {
   actions:Array<any> =
   [
-    {titre:"Accueil",route: "/accueil"},
-    {titre:"Produits",route: "/produits"},
-    {titre:"Ajouter Produit",route: "/ajouter-Produit"},
+    {titre:"Accueil",route: "/accueil",icon:"house"},
+    {titre:"Produits",route: "/produits",icon:"cart-check-fill"},
+    {titre:"Ajouter Produit",route: "/ajouter-Produit",icon:"bag-plus-fill"},
   ]
 
   actionCourante:any;

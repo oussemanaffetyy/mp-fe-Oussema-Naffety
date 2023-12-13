@@ -1,8 +1,10 @@
+import { Categorie } from "./categorie";
+
 export class Produit {
     id:number | undefined;
     code:string | undefined;
     designation: string | undefined;
-    prix:number | undefined
-    
+    prix:number | undefined;
+    public categorie?:Categorie;
     }
 

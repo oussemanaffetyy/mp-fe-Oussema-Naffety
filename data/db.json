@@ -1,0 +1,16 @@
+{
+  "produits": [
+    {
+      "id": 1,
+      "code": "227",
+      "designation": "Panier plastique",
+      "prix": 250
+    },
+    {
+      "id": "2",
+      "code": "y5",
+      "designation": "table en bois",
+      "prix": 1000
+    }
+  ]
+}
