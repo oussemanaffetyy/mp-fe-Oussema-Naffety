@@ -1,6 +1,11 @@
 <div class="container">
   <h1>Liste des produits</h1>
 
+  <div class="col-4">
+    <input type="text" class="form-control" [(ngModel)]="keyword" placeholder="Filter by Designation">
+    <button class="btn btn-primary" (click)="consulterProduits()">Filter</button>
+  </div>
+
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>
@@ -13,14 +18,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of produits">
+      <tr *ngFor="let p of (filteredProduits.length > 0 ? filteredProduits : produits)">
         <td>{{ p.id }}</td>
         <td>{{ p.code }}</td>
         <td>{{ p.designation }}</td>
         <td>{{ p.prix }}</td>
         <td>{{ p.categorie?.libelle }}</td>
         <td>
-          <button (click)="editerProduit(p)"  class="btn btn-outline-secondary"><i class="bi bi-pencil-square"></i>
+          <button (click)="editerProduit(p)" class="btn btn-outline-secondary"><i class="bi bi-pencil-square"></i>
             Editer
           </button>
         </td>
@@ -36,7 +41,7 @@
     <h5 class="modal-title text-center">Modifier Produit</h5>
 
   </div>
-  <form #produitForm="ngForm"(ngSubmit)="validerFormulaire(produitForm)">
+  <form #produitForm="ngForm" (ngSubmit)="validerFormulaire(produitForm)">
     <table>
       <tr>
         <td>Id:</td>
@@ -58,15 +63,18 @@
       <tr>
         <td>Categories:</td>
         <td>
-          <select class="form-control" name="categorie" [(ngModel)]="produitCourant.categorie" required>
-            <option *ngFor="let categorie of categories" [ngValue]="categorie">
-              {{ categorie.libelle }}
+          <select name="categorie" [(ngModel)]="produitCourant.categorie" class="form-control">
+            <option *ngIf="produitCourant.categorie!=null" style="background-color: forestgreen;color: white"
+              [(ngModel)]="produitCourant.categorie">{{this.produitCourant.categorie.libelle }}</option>
+            <option *ngFor="let c of categories " [ngValue]="c" [selected]="c.id === produitCourant.categorie?.id">
+              {{ c.libelle }}
             </option>
+
           </select>
         </td>
       </tr>
     </table>
     <button type="submit" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i> Update</button>
-    <button type="button" class="btn btn-outline-danger" (click)="annuler()" >Cancel</button>
+    <button type="button" class="btn btn-outline-danger" (click)="annuler()">Cancel</button>
   </form>
 </div>

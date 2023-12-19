@@ -18,19 +18,13 @@ export class ProduitsComponent implements OnInit {
 
   constructor(private produitsService: ProduitsService) {
   }
-
   produitCourant = new Produit();
   categories!: Categorie[];
- 
-  //updatedCatId!: number;
-
+  categoryId!:Categorie;
   produits: Array<Produit> = [];
-  //categories: Array<Categorie> = new Array<Categorie>;
-
-
-
-
+  filteredProduits: Array<Produit> = [];
   formulaireVisible = false;
+  keyword: string = '';
 
 
   ngOnInit(): void {
@@ -43,21 +37,20 @@ export class ProduitsComponent implements OnInit {
   }
   consulterProduits() {
     console.log("Récupérer la liste des produits");
-    //Appeler la méthode 'getProduits' du service pour récupérer les données du JSON
-    this.produitsService.getProduits()
-      .subscribe(
-        {
-          //En cas de succès
+    if (this.keyword.trim() !== '') {
+      this.filtrerParDesignation();
+    } else {
+      this.produitsService.getProduits()
+        .subscribe({
           next: data => {
             console.log("Succès GET");
             this.produits = data;
           },
-          //En cas d'erreur
           error: err => {
             console.log("Erreur GET");
           }
-        }
-      )
+        });
+    }
   }
   consultercategories() {
     console.log("Récupérer la liste des categories");
@@ -98,6 +91,8 @@ export class ProduitsComponent implements OnInit {
   }
 
   supprimerProduit(id: number | undefined) {
+    let conf = confirm("Etes-vous sûr ?");
+    if (conf)
     if (id) {
       this.produitsService.deleteProduit(id)
         .subscribe(
@@ -114,11 +109,6 @@ export class ProduitsComponent implements OnInit {
         );
     }
   }
-
-
-
-
-
   validerFormulaire(form: NgForm) {
     console.log(form.value);
     let existingProduit = this.produits.find(produit => produit.id === form.value.id);
@@ -136,7 +126,6 @@ export class ProduitsComponent implements OnInit {
   annuler() {
     this.formulaireVisible = false;
   }
-
   editerProduit(produit: Produit | undefined) {
     // Set the current product and show the form
     if (produit) {
@@ -146,5 +135,19 @@ export class ProduitsComponent implements OnInit {
       this.formulaireVisible = true;
     }
   }
+  filtrerParDesignation() {
+    this.produitsService.getProduitsByDesignation(this.keyword)
+      .subscribe({
+        next: data => {
+          console.log("Succès GET");
+          this.filteredProduits = data;
+        },
+        error: err => {
+          console.log("Erreur GET");
+        }
+      });
+  }
+  
+  
 }
 

@@ -5,6 +5,7 @@ export class Produit {
     code:string | undefined;
     designation: string | undefined;
     prix:number | undefined;
+    categoryId:number| undefined;
     public categorie?:Categorie;
     }
 

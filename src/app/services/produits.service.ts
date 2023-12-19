@@ -27,5 +27,9 @@ export class ProduitsService {
   getCategories(): Observable<Array<Categorie>> {
     return this.http.get<Array<Categorie>>(this.urlHoteCategorie);
   }
+  getProduitsByDesignation(designation: string): Observable<Array<Produit>> {
+    const url = `${this.urlHoteProduit}?designation=${designation}`;
+    return this.http.get<Array<Produit>>(url);
+  }
 }
 
